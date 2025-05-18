@@ -257,6 +257,8 @@ body {
   align-items: center;
   justify-content: space-between;
   background-image: url(images/img2.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
   padding: 2rem;
   color: rgb(21, 15, 15);
   text-align: center;
