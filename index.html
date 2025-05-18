@@ -8,23 +8,37 @@
   <title>Mara Green Tours</title>
 </head>
 <body>
-  <header>
-    <div class="header">
-      <div class="logo">
-        <img src="images/logo.jpg" alt="Mara Green Tours Logo">
-        <h1>MARA GREEN TOURS</h1>
-      <div class="nav">
-        <ul>
-          <li><a href="#home">Home</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="#services">Services</a></li>
-          <li><a href="#pricing">Pricing</a></li>
-          <li><a href="#contact">Contact</a></li>
-          <button id="open-login">Admin Login</button>
-        </ul>
-      </div>
+<header>
+  <div class="header">
+    <div class="logo">
+      <img src="images/logo.jpg" alt="Mara Green Tours Logo" />
+      <h1>MARA GREEN TOURS</h1>
     </div>
-  </header>
+    <button id="menu-toggle" aria-label="Toggle Menu">
+      &#9776; <!-- hamburger icon -->
+    </button>
+    <nav class="nav">
+      <ul id="nav-list">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><button id="open-login">Admin Login</button></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const menuToggle = document.getElementById('menu-toggle');
+const nav = document.querySelector('.nav');
+
+menuToggle.addEventListener('click', () => {
+  nav.classList.toggle('open');
+});
+
+</script>
 
   <section class="hero" id="home">
     <div class="hero1">
