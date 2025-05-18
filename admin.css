@@ -1,0 +1,60 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+}
+
+.admin-dashboard {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.add-tent, .tents-list, .bookings-list {
+  background: #fff;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+}
+
+.add-tent input, .add-tent textarea, .add-tent button {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+.tents-list ul, .bookings-list table {
+  width: 100%;
+}
+
+.tents-list li {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.bookings-list table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.bookings-list th, .bookings-list td {
+  padding: 10px;
+  border: 1px solid #ddd;
+}

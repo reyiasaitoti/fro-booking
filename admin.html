@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+    <script>
+    // Restrict access
+    const token = localStorage.getItem('token');
+    if (!token) {
+      alert('Access denied. Please login as admin.');
+      window.location.href = 'http://localhost:5000/index.html';
+    }
+  </script>
+
+  <button id="logoutBtn" style="float: right; margin: 10px;">Logout</button>
+  <section class="admin-dashboard">
+    <h2>Admin Dashboard</h2>
+    
+    <!-- Add New Tent -->
+    <div class="add-tent">
+      <h3>Add New Tent Service</h3>
+      <form id="tent-form" enctype="multipart/form-data" method="post">
+        <input type="text" name="title" placeholder="Tent Title" required>
+        <textarea name="description" placeholder="Description" required></textarea>
+        <input type="number" name="price" placeholder="Price" required>
+        <input type="file" name="image" accept="images/*" required>
+        <button type="submit">Add Tent</button>
+      </form>
+    </div>
+
+    <!-- View Tents -->
+    <div class="tents-list">
+      <h3>All Tents</h3>
+      <ul id="tents-list"></ul>
+    </div>
+
+    <!-- View Bookings -->
+    <h2>All Bookings</h2>
+<table id="bookings-table" border="1">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th>Tent Title</th>
+      <th>Check-In</th>
+      <th>Check-Out</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+  </section>
+
+  <script>
+
+    const API_URL = 'http://localhost:5000';
+  
+    // Load Tents
+    async function loadTents() {
+  try {
+    const res = await fetch(`${API_URL}/api/tents`);
+    if (!res.ok) throw new Error('Failed to load tents');
+    const tents = await res.json();
+    const tentsList = document.getElementById('tents-list');
+    tentsList.innerHTML = '';
+
+    tents.forEach(tent => {
+      const li = document.createElement('li');
+      li.innerHTML = `
+        <div>
+          <strong>ID:</strong> ${tent.id} &nbsp;
+          <strong>Title:</strong> ${tent.title} &nbsp;
+          <strong>Price:</strong> $${tent.price}
+          <button onclick="editTent(${tent.id})">Edit</button>
+          <button onclick="deleteTent(${tent.id})">Delete</button>
+        </div>
+      `;
+      tentsList.appendChild(li);
+    });
+  } catch (err) {
+    console.error('Error loading tents:', err);
+  }
+}
+
+  
+    // Delete Tent
+    async function deleteTent(id) {
+      try {
+        const res = await fetch(`${API_URL}/api/tents/${id}`, { method: 'DELETE' });
+        if (!res.ok) throw new Error('Failed to delete tent');
+        loadTents(); // reload tents after delete
+      } catch (err) {
+        console.error('Error deleting tent:', err);
+      }
+    }
+  
+    // Handle Add Tent
+    document.getElementById('tent-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target); // use FormData to handle file uploads
+
+      try {
+        const res = await fetch(`${API_URL}/api/tents`, {
+          method: 'POST',
+          body: formData // send FormData directly
+        });
+
+        if (!res.ok) throw new Error('Failed to add new tent');
+        const result = await res.json();
+        alert(result.message);
+        e.target.reset();
+        loadTents(); // reload tents after adding a new one
+      } catch (err) {
+        console.error('Error adding tent:', err);
+      }
+    });
+  
+  // Load Bookings
+document.addEventListener('DOMContentLoaded', function () {
+  fetch('http://localhost:5000/api/bookings')
+    .then(response => response.json())
+    .then(bookings => {
+      const tableBody = document.querySelector('#bookings-table tbody');
+      bookings.forEach(booking => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${booking.id}</td>
+          <td>${booking.name}</td>
+          <td>${booking.email}</td>
+          <td>${booking.phone}</td>
+          <td>${booking.tent_title}</td>
+          <td>${booking.check_in}</td>
+          <td>${booking.check_out}</td>
+          <td><button class="delete-btn" data-id="${booking.id}">Delete</button></td>
+        `;
+        tableBody.appendChild(row);
+      });
+
+      // Add delete button event listeners
+      document.querySelectorAll('.delete-btn').forEach(button => {
+        button.addEventListener('click', handleDelete);
+      });
+    })
+    .catch(err => {
+      console.error('Failed to fetch bookings:', err);
+    });
+});
+
+function handleDelete(event) {
+  const bookingId = event.target.dataset.id;
+
+  // Confirm delete action
+  if (confirm('Are you sure you want to delete this booking?')) {
+    fetch(`http://localhost:5000/api/bookings/${bookingId}`, {
+      method: 'DELETE'
+    })
+      .then(response => {
+        if (response.ok) {
+          event.target.closest('tr').remove();
+        } else {
+          alert('Failed to delete the booking.');
+        }
+      })
+      .catch(err => {
+        console.error('Error deleting booking:', err);
+      });
+  }
+}
+
+ 
+loadTents();
+
+
+  </script>
+
+  <script>
+  // Logout button click handler
+  document.getElementById('logoutBtn').addEventListener('click', () => {
+    localStorage.removeItem('token'); // Clear saved token
+    window.location.href = 'index.html'; // Redirect to homepage
+  });
+</script>
+
+  
+</body>
+</html>
