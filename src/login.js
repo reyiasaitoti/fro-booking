@@ -67,7 +67,7 @@ loginBtn.addEventListener('click', async () => {
       localStorage.setItem('token', data.token);
       loginModal.style.display = 'none';
       // Redirect to admin portal (adjust URL if needed)
-      window.location.href = 'https://fro-booking-fbyjbqya0-reyia-saitotis-projects.vercel.app/admin.html';
+      window.location.href = 'admin.html';
  
     } else {
       loginError.textContent = data.message || 'Invalid login credentials';
