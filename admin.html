@@ -8,6 +8,10 @@
 </head>
 <body>
 
+  <script>
+  window.VITE_API_URL = "https://booking-8vpk.onrender.com";  // Set your deployed API base URL here
+</script>
+
     <script>
     // Restrict access
     const token = localStorage.getItem('token');
@@ -60,7 +64,7 @@
 
   <script>
 
-    const API_URL = 'https://booking-8vpk.onrender.com';
+    const API_URL = window.VITE_API_URL
   
     // Load Tents
     async function loadTents() {
