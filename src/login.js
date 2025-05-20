@@ -26,55 +26,43 @@ window.onclick = (e) => {
 
 // Handle login form submission
 loginBtn.addEventListener('click', async () => {
-  loginError.textContent = ''; // Clear any previous errors
-
   const username = document.getElementById('username').value.trim();
   const password = document.getElementById('password').value.trim();
 
-  // Validate input
   if (!username || !password) {
     loginError.textContent = 'Both fields are required!';
     return;
   }
 
   try {
-    // Use window global for API base URL
-    const apiUrl = window.VITE_API_URL || 'https://booking-8vpk.onrender.com'; 
-    // Replace with your actual deployed backend URL
+    const apiUrl = 'https://booking-8vpk.onrender.com'; // Hardcoded for now
+    console.log('Sending login request to:', `${apiUrl}/api/admin/login`);
 
     const response = await fetch(`${apiUrl}/api/admin/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify({ username, password })
     });
 
+    const text = await response.text();
+    console.log('Response status:', response.status);
+    console.log('Response body:', text);
+
     if (!response.ok) {
-      // Try to parse error JSON message
-      let errorMessage = 'Login failed';
-      try {
-        const errorData = await response.json();
-        errorMessage = errorData.message || errorMessage;
-      } catch {
-        // fallback to text if json parse fails
-        errorMessage = await response.text();
-      }
-      throw new Error(errorMessage);
+      loginError.textContent = 'Invalid credentials or server error.';
+      return;
     }
 
-    const data = await response.json();
-
+    const data = JSON.parse(text);
     if (data.token) {
+      console.log('Token received:', data.token);
       localStorage.setItem('token', data.token);
-      loginModal.style.display = 'none';
-      console.log('Token saved:', data.token); // ✅ Confirm in browser console
-      // Redirect to admin portal (adjust URL if needed)
       window.location.href = '/admin.html';
- 
     } else {
-      loginError.textContent = data.message || 'Invalid login credentials';
+      loginError.textContent = data.message || 'Invalid login response.';
     }
   } catch (error) {
     console.error('Login failed:', error);
-    loginError.textContent = error.message || 'Error logging in. Please try again.';
+    loginError.textContent = 'Error logging in. Please try again.';
   }
 });
