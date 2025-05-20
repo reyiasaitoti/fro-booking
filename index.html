@@ -115,7 +115,9 @@ menuToggle.addEventListener('click', () => {
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-    fetch('https://booking-8vpk.onrender.com/api/tents')
+    const apiUrl = import.meta.env.VITE_API_URL;
+
+      fetch(`${apiUrl}/api/tents`)
       .then(response => response.json())
       .then(tents => {
         const pricingGrid = document.getElementById('pricing-grid');
