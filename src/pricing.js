@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const apiUrl = import.meta.env.VITE_API_URL;
+  const apiUrl = window.VITE_API_URL;
 
   fetch(`${apiUrl}/api/tents`)
     .then(response => response.json())

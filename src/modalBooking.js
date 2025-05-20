@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
       check_out: document.getElementById("check_out").value,
     };
 
-    const apiUrl = import.meta.env.VITE_API_URL;
+    const apiUrl = window.VITE_API_URL;
 
 
     fetch(`${apiUrl}/api/bookings`, {
