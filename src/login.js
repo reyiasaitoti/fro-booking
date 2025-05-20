@@ -66,6 +66,7 @@ loginBtn.addEventListener('click', async () => {
     if (data.token) {
       localStorage.setItem('token', data.token);
       loginModal.style.display = 'none';
+      console.log('Token saved:', data.token); // ✅ Confirm in browser console
       // Redirect to admin portal (adjust URL if needed)
       window.location.href = '/admin.html';
  
