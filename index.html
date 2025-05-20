@@ -115,7 +115,7 @@ menuToggle.addEventListener('click', () => {
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-    fetch('http://localhost:5000/api/tents')
+    fetch('https://booking-8vpk.onrender.com/api/tents')
       .then(response => response.json())
       .then(tents => {
         const pricingGrid = document.getElementById('pricing-grid');
